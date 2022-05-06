@@ -1,0 +1,4 @@
+- name: add ssh key for sysadmin
+  authorized_key:
+    user: sysadmin
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILeSVsEkjUBls5cGUn1vPmPKRLqw35y6AOZNyMMb2ala ansible2"

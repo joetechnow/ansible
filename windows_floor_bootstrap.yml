@@ -1,0 +1,26 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+  tasks:
+  - name: Install packages
+    win_chocolatey: 
+      name:
+      - googlechrome
+      - 7zip
+      - foxitreader
+      ignore_checksums: yes
+      state: present
+  - name: Create directory structure
+    ansible.windows.win_file:
+      path: C:\Temp
+      state: directory
+  - name: Copy a directory to temp folder
+    ansible.windows.win_copy:
+      src: /home/sysadmin/ansible/files/bootstrap_files
+      dest: C:\Temp
+  - name: Run Setup Script for floor machine
+    win_shell: c:\temp\bootstrap_files\basicfloorsetup.ps1
+    ignore_errors: yes

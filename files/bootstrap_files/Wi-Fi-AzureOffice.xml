@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
+	<name>AzureOffice</name>
+	<SSIDConfig>
+		<SSID>
+			<hex>417A7572654F6666696365</hex>
+			<name>AzureOffice</name>
+		</SSID>
+	</SSIDConfig>
+	<connectionType>ESS</connectionType>
+	<connectionMode>auto</connectionMode>
+	<MSM>
+		<security>
+			<authEncryption>
+				<authentication>WPA2PSK</authentication>
+				<encryption>AES</encryption>
+				<useOneX>false</useOneX>
+			</authEncryption>
+			<sharedKey>
+				<keyType>passPhrase</keyType>
+				<protected>true</protected>
+				<keyMaterial>01000000D08C9DDF0115D1118C7A00C04FC297EB0100000048F906D19688FA448B100D256465AB5A0000000002000000000010660000000100002000000042A5389E6128EA8C0F17855D0898EC9208A139C794E09D0DDC4D1454319CF0C1000000000E8000000002000020000000FC66B519A0527D867E51BA74758FD32ED976B85918EB348F8D20FF16278D15212000000074BCD2172AA0030CF7CE02F9E755EBFEAB2C9DB27BB0DCA4E890201969F9AD20400000006F7A432BA41C192EDE44CD756DA03352A438BB27DC202A9A34E109A18109A8F646E2D274F66C56726F71E2063D38B6507A80D72E51C1AF6A8EDD36A36B5202A4</keyMaterial>
+			</sharedKey>
+		</security>
+	</MSM>
+	<MacRandomization xmlns="http://www.microsoft.com/networking/WLAN/profile/v3">
+		<enableRandomization>false</enableRandomization>
+		<randomizationSeed>468588286</randomizationSeed>
+	</MacRandomization>
+</WLANProfile>

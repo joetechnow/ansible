@@ -1,0 +1,49 @@
+- name: install apache2 and php packages for Ubuntu
+  tags: apache,apache2,ubuntu
+  apt:
+    name:
+      - apache2
+      - libapache2-mod-php
+    state: latest
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: install apache2 and php packages for CentOS
+  tags: centos,apache,httpd
+  dnf:
+    name:
+      - httpd
+      - php
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: start httpd (CentOS)
+  tags: apache,centos,httpd
+  service:
+    name: httpd
+    state: started
+  when: ansible_distribution == "CentOS"
+
+- name: change email
+  tags: apache,httpd,centos
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin somebody@somewhere.net
+  when: ansible_distribution == "CentOS"
+  register: httpd
+
+- name: restart httpd (CentOS)
+  tags: apache,centos,httpd
+  service:
+    name: httpd
+    status: restarted
+  when: httpd.changed
+
+- name: copy default html file for site
+  tags: apache,httpd,apache2
+  copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644

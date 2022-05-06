@@ -1,0 +1,9 @@
+---
+- hosts: windows
+  tasks:
+  - name: Uninstall with chocolatey
+    win_chocolatey:
+      name:
+      - procexp
+      - windirstat
+      state: absent
