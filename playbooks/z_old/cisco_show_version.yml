@@ -1,0 +1,19 @@
+---
+
+- name: Cisco Show Verion Example
+  hosts: switch
+  gather_facts: false
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+
+
+  tasks:
+    - name: run show version on switch
+      ios_command:
+        commands: show version 
+      register: output
+
+    - name: print output
+      debug:
+        var: output.stdout_lines

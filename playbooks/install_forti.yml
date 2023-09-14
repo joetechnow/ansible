@@ -1,0 +1,21 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+    pre_tasks:
+      - include_vars: ../vault/vault.yml
+  tasks:
+#  - name: Install FortiClient locally using transforms
+#    ansible.windows.win_package:
+#      path: C:\temp\bootstrap_files\FortiClient.msi
+#      arguments: /TRANSFORMS=C:\temp\bootstrap_files\FortiClient.mst
+#      state: present
+
+  - name: Install an MSI, and wait for it to complete before continuing
+    win_msi:
+      path: C:\temp\bootstrap_files\FortiClient.msi
+      extra_args: /TRANSFORMS=C:\temp\bootstrap_files\FortiClient.mst
+      wait: yes

@@ -1,0 +1,30 @@
+---
+vars_files:
+- /home/sysadmin/ansible/vault.yml
+- /home/sysadmin/ansible/local.yml
+
+become_method: runas
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_port: 5985
+#### Domain Ansible user SETTING BELOW ####
+#become_user:  azurestandard.com\ansible
+#ansible_user:  azurestandard.com\ansible
+#ansible_password:  "{{ local_password }}"
+#ansible_become_pass:  "{{ local_password }}"
+become_user:  azurestandard.com\admin
+ansible_user:  azurestandard.com\admin
+#ansible_password:  "{{ win_password }}"
+#ansible_become_pass:  "{{ win_password }}"
+#### LOCAL ansible user AUTH SETTINGS BELOW ####
+#ansible_user: ansible
+#ansible_become_pass:  "{{ local_password }}"
+#ansible_password:  "{{ local_password }}"
+#become_user: ansible
+#ansible_winrm_transport: ntlm
+#### Azure user local auth settings, will also work with administrator ####
+#ansible_user: Azure
+ansible_become_pass:  "{{ win_password }}"
+ansible_password:  "{{ win_password }}"
+#become_user: Azure
+ansible_winrm_transport: ntlm

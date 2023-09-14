@@ -1,0 +1,22 @@
+---
+- hosts: switch 
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+#    pre_tasks:
+#    - include_vars: ../vault.yml
+  tasks:
+    - name: run show version on switch
+      ios_command:
+        commands:
+          - show version
+      register: output
+
+    - name: print output
+      debug:
+        var: output.stdout_lines
+    
+#    - name: Debug vaulted variable
+#      debug:
+#        var: wp_variable

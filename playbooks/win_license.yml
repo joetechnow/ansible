@@ -1,0 +1,12 @@
+---
+- hosts: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+
+  tasks:
+
+  - name: Display Windows license
+    debug:
+      var: ansible_os_product_key

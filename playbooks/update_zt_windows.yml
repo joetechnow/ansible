@@ -1,0 +1,47 @@
+---
+#### ZT hosts section ####
+
+- hosts: zt
+  gather_facts: no
+  ignore_errors: yes
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  tasks:
+
+  - name: Ensure user ansible is present
+    ansible.windows.win_user:
+      name: ansible
+      password: fGtew456GcxsHc
+      state: present
+      groups:
+        - Administrators
+        - Remote Management Users
+      account_disabled: false
+
+
+
+  - name: Copy bootstap_files directory to temp folder
+    ansible.windows.win_copy:
+      src: /home/sysadmin/ansible/files/bootstrap_files/
+      dest: C:\Temp\bootstrap_files\
+
+  - name: Update Windows
+    ansible.windows.win_updates:
+      category_names:
+      - CriticalUpdates
+      - SecurityUpdates
+      - UpdateRollups
+      - DefinitionUpdates
+      - ServicePacks
+      reject_list:
+      - Microsoft Silverlight
+      state: installed
+    register: update_result
+
+  - name: reboot host if required
+    ansible.windows.win_reboot:
+      msg: "MicroSoft Windows Update Will Start a Reboot in 8 Hours"
+      pre_reboot_delay: 28800
+      reboot_timeout: 29400
+    when: update_result.reboot_required

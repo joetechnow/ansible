@@ -1,0 +1,11 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  tasks:
+  - name: Run Setup Script for floor machine
+    win_shell: c:\temp\bootstrap_files\basicfloorsetup.ps1
+    ignore_errors: yes

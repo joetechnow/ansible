@@ -1,0 +1,33 @@
+---
+
+- name: Pull show commands from EdgeOS
+  hosts: edgeos
+  vars:
+    ansible_network_os: edgeos
+    ansible_connection: network_cli
+    ansible_become_method: enable
+    ansible_password: "{{ edgeos }}"
+    ansible_become_password: "{{ edgeos }}"
+    ansible_connection: network_cli
+    wp_variable: "{{ edgeos }}"
+    ansible_become_user: ubnt
+    ansible_user: ubnt
+#    ansible_python_interpreter: /usr/bin/python3
+
+  gather_facts: False
+  ignore_errors: yes
+  connection: ssh
+  vars_files:
+  - /home/sysadmin/ansible/vault/vault.yml
+  - /home/sysadmin/ansible/vault/local.yml
+  - /home/sysadmin/ansible/vault/edgeos.yml
+
+  tasks:
+
+
+  - name: Show the configuration for eth0 and eth1
+    community.network.edgeos_command:
+      commands: show interfaces ethernet {{ item }}
+    loop:
+      - eth0
+      - eth1

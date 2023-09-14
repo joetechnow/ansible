@@ -1,0 +1,31 @@
+---
+#### local hosts section  ####
+
+- hosts: production:zt_windows_fix:zt_windows
+  gather_facts: no
+  ignore_errors: yes
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  tasks:
+
+    - name: Get Windows build version
+      win_command: cmd.exe /c ver
+      register: build_version
+      changed_when: false
+
+    - name: Install updates if build version is older than 19045
+      win_updates:
+        category_names: SecurityUpdates, CriticalUpdates, UpdateRollups, FeaturePacks
+        state: installed
+        reboot: yes
+        reboot_timeout: 14400
+        delay_reboot: yes
+      when: build_version.stdout | regex_search('(\d+)\.(\d+)\.(\d+)')
+            and build_version.stdout.split('.')[2] | int < 19045
+      register: update_result
+
+    - name: Message Reboot
+      win_reboot:
+        msg: "Rebooting in 4 hours for Microsoft Updates"
+      when: update_result.reboot_required

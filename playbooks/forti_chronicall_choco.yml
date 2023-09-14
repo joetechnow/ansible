@@ -1,0 +1,27 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  pre_tasks:
+    - include_vars: ../vault/vault.yml
+  tasks:
+  - name: Install packages
+    win_chocolatey: 
+      name:
+      - Forticlient
+ #     - Chronicall
+      state: present
+      source: AzureChoco
+
+  - name: Install packages
+    win_chocolatey: 
+      name:
+ #     - Forti
+      - Chronicall
+      state: present
+      source: AzureChoco
+
+ 

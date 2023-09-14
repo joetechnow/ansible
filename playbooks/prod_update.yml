@@ -1,0 +1,114 @@
+---
+#### local hosts section  ####
+
+- hosts: production
+  gather_facts: no
+  ignore_errors: yes
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+  tasks:
+
+  - name: Add AzureChoco repository
+    win_chocolatey_source:
+      name: AzureChoco
+      state: present
+      priority: 1
+      source: \\data.azurestandard.com\shared$\chocolatey\
+      source_username: azurestandard.com\ansible
+      source_password: "{{ local_password }}"
+
+  - name: Update Select Choco Packages
+    win_chocolatey:
+      name: '{{ item }}'
+      state: latest
+    loop:
+    - googlechrome
+    - 7zip
+    - foxitreader
+    - notepadplusplus
+    - zoom
+
+  - name: Copy bootstap_files directory to temp folder
+    ansible.windows.win_copy:
+      src: /home/sysadmin/ansible/files/bootstrap_files/
+      dest: C:\Temp\bootstrap_files\
+
+  - name: Update Windows
+    ansible.windows.win_updates:
+      category_names:
+      - CriticalUpdates
+      - SecurityUpdates
+      - UpdateRollups
+      - DefinitionUpdates
+      - ServicePacks
+      reject_list:
+      - Microsoft Silverlight
+      state: installed
+    register: update_result
+
+  - name: reboot host if required
+    ansible.windows.win_reboot:
+      msg: "MicroSoft Windows Update Will Start a Reboot in 8 Hours"
+      pre_reboot_delay: 28800
+      reboot_timeout: 29400
+    when: update_result.reboot_required
+
+
+
+
+#### ZT hosts section ####
+
+- hosts: zt
+  gather_facts: no
+  ignore_errors: yes
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+  tasks:
+
+  - name: Add AzureZTChoco repository
+    win_chocolatey_source:
+      name: AzureZTChoco
+      state: present
+      priority: 1
+      source: \\10.211.0.5\shared$\chocolatey\
+      source_username: azurestandard.com\ansible
+      source_password: "{{ local_password }}"
+
+
+  - name: Update Select Choco Packages
+    win_chocolatey:
+      name: '{{ item }}'
+      state: latest
+    loop:
+    - googlechrome
+    - 7zip
+    - foxitreader
+    - notepadplusplus
+    - zoom
+
+  - name: Copy bootstap_files directory to temp folder
+    ansible.windows.win_copy:
+      src: /home/sysadmin/ansible/files/bootstrap_files/
+      dest: C:\Temp\bootstrap_files\
+
+  - name: Update Windows
+    ansible.windows.win_updates:
+      category_names:
+      - CriticalUpdates
+      - SecurityUpdates
+      - UpdateRollups
+      - DefinitionUpdates
+      - ServicePacks
+      reject_list:
+      - Microsoft Silverlight
+      state: installed
+    register: update_result
+
+  - name: reboot host if required
+    ansible.windows.win_reboot:
+      msg: "MicroSoft Windows Update Will Start a Reboot in 8 Hours"
+      pre_reboot_delay: 28800
+      reboot_timeout: 29400
+    when: update_result.reboot_required

@@ -1,0 +1,605 @@
+---
+
+- name: Basic Setup for Switch
+  hosts: switch
+
+  gather_facts: False
+  ignore_errors: yes
+
+  vars_files:
+  - /home/sysadmin/ansible/vault/vault.yml
+  - /home/sysadmin/ansible/vault/local.yml
+  become: yes
+  become_user: sysadmin
+#  ansible_user: sysadmin
+#  ansible_password: "{{ win_password }}"
+
+
+  tasks:
+    - name: Set Banner MOTD
+      ios_config:
+        commands: "{{ item }}"
+
+      with_items:
+      - banner motd ! **** Azure Standard Authorized Access Only ****      *** DCC-CISCO-STACK2 *** !
+
+    - name: Enable StackPorts
+      ios_command:
+        commands: "{{ item }}"
+
+      with_items:
+      - "switch 1 stack port 1 enable"
+      - "switch 1 stack port 2 enable"
+      register: output
+    - debug: var=output
+
+
+    - name: Enable HTTP/HTTPS Access
+      ios_config:
+        lines:
+          -  "ip http server"
+        register: result
+        check_mode: no
+
+    - name: Configure local authentication
+      ios_config:
+        lines:
+          - "ip http authentication local"
+      register: result
+      check_mode: no
+
+    - name: Configure HTTP username and password
+      ios_command:
+        commands:
+          - "username sysadmin privilege 15 secret {{ win_password }}"
+      register: result
+      check_mode: no
+
+    - name: Enable all active session modules
+      ios_config:
+        lines:
+          - "ip http active-session-modules all"
+      register: result
+      check_mode: no
+
+#    - name: Enable SSH Access
+#      ios_config:
+#        commands:
+#          - ip ssh version 2
+#          - line vty 0 15
+#          - transport input ssh
+#          - login local
+
+#    - name: Set the SSH Username and Password 
+#      ios_config:
+#        commands:
+#          - username sysadmin privilege 15 secret {{ win_password }}
+
+
+    - name: Set Secret
+      ios_command:
+        commands: "{{ item }}"
+        provider: "{{ cli }}"
+
+      with_items:
+      - enable secret {{ win_password }}
+
+#      register: output
+#    - debug: var=output
+
+
+    - name: Create VLAN 2
+      ios_vlan:
+        vlan_id: 2
+        name: WISP_2
+        state: present
+
+    - name: Create VLAN 3
+      ios_vlan:
+        vlan_id: 3
+        name: WISP_3
+        state: present
+
+    - name: Create VLAN 4
+      ios_vlan:
+        vlan_id: 4
+        name: WISP_HARD_WIRED
+        state: present
+
+    - name: Create VLAN 5
+      ios_vlan:
+        vlan_id: 5
+        name: WISP_MORO_WEST
+        state: present
+
+    - name: Create VLAN 6
+      ios_vlan:
+        vlan_id: 6
+        name: WISP_DUFUR
+        state: present
+
+    - name: Create VLAN 8
+      ios_vlan:
+        vlan_id: 8
+        name: WISP_MORO_SOUTH
+        state: present
+
+    - name: Create VLAN 9
+      ios_vlan:
+        vlan_id: 9
+        name: RADIOMNGC
+        state: present
+
+    - name: Create VLAN 16
+      ios_vlan:
+        vlan_id: 16
+        name: PITTOCK
+        state: present
+
+    - name: Create VLAN 17
+      ios_vlan:
+        vlan_id: 17
+        name: DCC
+        state: present        
+
+    - name: Create VLAN 18
+      ios_vlan:
+        vlan_id: 18
+        name: FARM
+        state: present
+
+    - name: Create VLAN 19
+      ios_vlan:
+        vlan_id: 19
+        name: MWH
+        state: present
+
+    - name: Create VLAN 22
+      ios_vlan:
+        vlan_id: 22
+        name: MARKETPOS
+        state: present
+
+    - name: Create VLAN 23
+      ios_vlan:
+        vlan_id: 23
+        name: MARKETGUEST
+        state: present
+
+    - name: Create VLAN 37
+      ios_vlan:
+        vlan_id: 37
+        name: CORP_SERVER
+        state: present
+
+    - name: Create VLAN 38
+      ios_vlan:
+        vlan_id: 38
+        name: WISP_APP_SERVERS
+        state: present
+
+    - name: Create VLAN 39
+      ios_vlan:
+        vlan_id: 39
+        name: PROTECTED_SERVERS
+        state: present
+
+    - name: Create VLAN 40
+      ios_vlan:
+        vlan_id: 40
+        name: VLAN40
+        state: present
+
+    - name: Create VLAN 41
+      ios_vlan:
+        vlan_id: 41
+        name: VM_MANAGE
+        state: present
+
+    - name: Create VLAN 42
+      ios_vlan:
+        vlan_id: 42
+        name: AUTOMATION
+        state: present
+
+    - name: Create VLAN 43
+      ios_vlan:
+        vlan_id: 43
+        name: vlan43
+        state: present
+
+    - name: Create VLAN 44
+      ios_vlan:
+        vlan_id: 44
+        name: ESCi_NFS
+        state: present
+
+    - name: Create VLAN 46
+      ios_vlan:
+        vlan_id: 46
+        name: INTERVM
+        state: present
+
+    - name: Create VLAN 47
+      ios_vlan:
+        vlan_id: 47
+        name: RECOVERYPOINT_REP
+        state: present
+
+    - name: Create VLAN 50
+      ios_vlan:
+        vlan_id: 50
+        name: VLAN50
+        state: present
+
+    - name: Create VLAN 52 
+      ios_vlan:
+        vlan_id: 52
+        name: MORO_CAMERAS
+        state: present
+
+    - name: Create VLAN 53
+      ios_vlan:
+        vlan_id: 53
+        name: MILL_CAMERAS
+        state: present
+
+    - name: Create VLAN 99
+      ios_vlan:
+        vlan_id: 99
+        name: NETWORK_MANAGE
+        state: present
+
+    - name: Create VLAN 100
+      ios_vlan:
+        vlan_id: 100
+        name: WIRELESS_PRINTERS
+        state: present
+
+    - name: Create VLAN 101
+      ios_vlan:
+        vlan_id: 101
+        name: VLAN101
+        state: present
+
+    - name: Create VLAN 116
+      ios_vlan:
+        vlan_id: 116
+        name: JUNIPER_VPN
+        state: present
+
+    - name: Create VLAN 120
+      ios_vlan:
+        vlan_id: 120
+        name: UBIQUITI_SETUP
+        state: present
+
+    - name: Create VLAN 160
+      ios_vlan:
+        vlan_id: 160
+        name: SERVER_DMZ
+        state: present
+
+    - name: Create VLAN 161
+      ios_vlan:
+        vlan_id: 161
+        name: vlan161
+        state: present
+
+    - name: Create VLAN 162
+      ios_vlan:
+        vlan_id: 162
+        name: INTERROUTER_MORO-ZT
+        state: present
+
+    - name: Create VLAN 170
+      ios_vlan:
+        vlan_id: 170
+        name: DCC_IPO_NET
+        state: present
+
+    - name: Create VLAN 171
+      ios_vlan:
+        vlan_id: 171
+        name: GUEST_WIFI_DUFUR
+        state: present
+
+    - name: Create VLAN 191
+      ios_vlan:
+        vlan_id: 191
+        name: MORO_GUEST
+        state: present
+
+    - name: Create VLAN 199
+      ios_vlan:
+        vlan_id: 199
+        name: PHONE_CONFIG
+        state: present
+
+    - name: Create VLAN 200
+      ios_vlan:
+        vlan_id: 200
+        name: vlan200
+        state: present  
+
+    - name: Create VLAN 201
+      ios_vlan:
+        vlan_id: 201
+        name: MORO-DUFUR
+        state: present
+
+    - name: Create VLAN 202
+      ios_vlan:
+        vlan_id: 202
+        name: FARM-DUFUR
+        state: present
+
+    - name: Create VLAN 203
+      ios_vlan:
+        vlan_id: 203
+        name: FARM-PITTOCK
+        state: present
+
+    - name: Create VLAN 204
+      ios_vlan:
+        vlan_id: 204
+        name: MORO-PITTOCK
+        state: present
+
+    - name: Create VLAN 205
+      ios_vlan:
+        vlan_id: 205
+        name: MORO-FARM
+        state: present
+
+    - name: Create VLAN 206
+      ios_vlan:
+        vlan_id: 206
+        name: DUFUR-PITTOCK
+        state: present
+
+    - name: Create VLAN 210
+      ios_vlan:
+        vlan_id: 210
+        name: LSN
+        state: present
+
+    - name: Create VLAN 450
+      ios_vlan:
+        vlan_id: 450
+        name: WISP450
+        state: present
+
+    - name: Create VLAN 453
+      ios_vlan:
+        vlan_id: 453
+        name: VLAN453
+        state: present
+
+    - name: Create VLAN 454
+      ios_vlan:
+        vlan_id: 454
+        name: MoroCore-ZeroTierRTR
+        state: present
+
+    - name: Create VLAN 455
+      ios_vlan:
+        vlan_id: 455
+        name: VLAN455
+        state: present
+
+    - name: Create VLAN 456
+      ios_vlan:
+        vlan_id: 456
+        name: VLAN456
+        state: present
+
+    - name: Create VLAN 500
+      ios_vlan:
+        vlan_id: 500
+        name: vlan500
+        state: present
+
+    - name: Create VLAN 501
+      ios_vlan:
+        vlan_id: 501
+        name: vlan501
+        state: present
+
+    - name: Create VLAN 801
+      ios_vlan:
+        vlan_id: 801
+        name: MOWINET
+        state: present
+
+    - name: Create VLAN 802
+      ios_vlan:
+        vlan_id: 802
+        name: MOWINETDUFUR
+        state: present
+
+    - name: Create VLAN 803
+      ios_vlan:
+        vlan_id: 803
+        name: VLAN803
+        state: present
+
+    - name: Create VLAN 806
+      ios_vlan:
+        vlan_id: 806
+        name: VLAN806
+        state: present
+
+    - name: Create VLAN 807 
+      ios_vlan:
+        vlan_id: 807
+        name: VLAN807
+        state: present
+
+    - name: Create VLAN 808
+      ios_vlan:
+        vlan_id: 808
+        name: VLAN808
+        state: present
+
+    - name: Create VLAN 812
+      ios_vlan:
+        vlan_id: 812
+        name: VLAN812
+        state: present
+
+    - name: Create VLAN 999
+      ios_vlan:
+        vlan_id: 999
+        name: VLAN999
+        state: present
+
+    - name: Create VLAN 1601 
+      ios_vlan:
+        vlan_id: 1601
+        name: MWH_PHONE
+        state: present
+
+    - name: Create VLAN 1602
+      ios_vlan:
+        vlan_id: 1602
+        name: FARM_PHONE
+        state: present
+
+    - name: Create VLAN 1603
+      ios_vlan:
+        vlan_id: 1603
+        name: DCC_PHONE
+        state: present
+
+    - name: Create VLAN 2004
+      ios_vlan:
+        vlan_id: 2004
+        name: MWH_OFFICE
+        state: present
+
+    - name: Create VLAN 2008
+      ios_vlan:
+        vlan_id: 2008
+        name: MWH_PRODUCTION
+        state: present
+
+    - name: Create VLAN 2010
+      ios_vlan:
+        vlan_id: 2010
+        name: IMAGING
+        state: present
+
+#    - name: Create VLAN 2101
+#      ios_vlan:
+#        vlan_id: 2101
+#        name: DCC_PRINTERS
+#        state: present
+#
+#    - name: Create VLAN 2103
+#      ios_vlan:
+#        vlan_id: 2103
+#        name: DCC_IOT
+#        state: present
+#
+#    - name: Create VLAN 2104
+#      ios_vlan:
+#        vlan_id: 2104
+#        name: DCC_CLIENTS
+#        state: present
+#
+#    - name: Create VLAN 2201
+#      ios_vlan:
+#        vlan_id: 2201
+#        name: HQ_PRINTERS
+#        state: present
+#
+#    - name: Create VLAN 2203
+#      ios_vlan:
+#        vlan_id: 2203
+#        name: HQ_IOT
+#        state: present
+#
+#    - name: Create VLAN 2204
+#      ios_vlan:
+#        vlan_id: 2204
+#        name: HQ_CLIENTS
+#        state: present
+#
+#    - name: Create VLAN 2102
+#      ios_vlan:
+#        vlan_id: 2102
+#        name: DCC_CAMS
+#        state: present
+#
+#    - name: Create VLAN 2202
+#      ios_vlan:
+#        vlan_id: 2202
+#        name: HQ_CAMS
+#        state: present
+#
+    - name: Create VLAN 4009
+      ios_vlan:
+        vlan_id: 4009 
+        name: RADIOMNGS
+        state: present
+
+    - name: Set Clock Settings
+      ios_config:
+        commands:
+          - clock timezone PST -8
+          - ntp server 172.19.2.1
+
+    - name: Set Domain Name
+      ios_config:
+        commands:
+          - ip domain-name AzureStandard.com
+
+    - name: Turn Off DNS Lookup for Mistyped Commands
+      ios_config:
+        commands:
+          - no ip host name-server
+
+#    - name: Set Hostname Based on Inventory
+#      ios_config:
+#        commands:
+#          - hostname {{ hostvars[inventory_hostname].ansible_hostname }}
+
+#    - name: Configure Port 1 as an Access Port and Assign to VLAN 99
+#      ios_config:
+#        commands:
+#          - interface g1/0/1
+#          - switchport mode access
+#          - switchport access vlan 99
+
+    - name: Configure Port 48 as a trunk port with default VLAN 19 if switch is numbered 1, don't worry about errors
+      ios_config:
+        commands:
+          - interface g1/0/48
+          - switchport mode trunk
+          - switchport trunk native vlan 17
+          - switchport trunk allowed vlan all
+
+#### Depending on how the ports are numbered
+
+    - name: Configure Port 48 as a trunk port with default VLAN 19 if switch is numbered 2, don't worry about errors
+      ios_config:
+        commands:
+          - interface g2/0/48
+          - switchport mode trunk
+          - switchport trunk native vlan 17
+          - switchport trunk allowed vlan all
+
+#    - name: Configure VLAN 99 Interface with IP and Description
+#      ios_config:
+#        commands:
+#          - interface vlan 99
+#          - ip address {{ hostvars[inventory_hostname].vlan_99_ip }} 255.255.255.0
+#          - description "Network Management"
+
+#    - name: Configure Default Gateway
+#      ios_config:
+#        commands:
+#          - ip default-gateway 192.168.99.254
+
+

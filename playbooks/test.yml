@@ -1,0 +1,47 @@
+---
+- hosts: zt_me
+  gather_facts: True
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+  tasks:
+  - name: Run a command under a non-Powershell interpreter (cmd in this case)
+    win_shell: hostname
+    args:
+      executable: cmd
+    register: hostn
+    no_log: true
+
+  - name: Remove quotes from hostn var
+    set_fact:
+      host_var: "{{ hostn.stdout | json_query('[*]') }}"
+    
+#  - name: Remove quotes from output
+#    set_fact:
+#      name_var: "{{ hostn.stdout | from_json }}"
+
+
+#  - name: Remove quotes from output
+#    set_fact:
+#      my_var2: "{{ hostn.stdout | replace('"','') }}"
+
+  - name: Display my_var2 var
+    debug:
+      var: my_var2.stdout
+
+  - name: Remove quotes from output
+    set_fact:
+      my_var: "{{ hostn.stdout | string }}"
+
+  - name: Display hostn var
+    debug:
+      var: hostn.stdout
+
+  - name: Display host_var var
+    debug:
+      var: host_var.stdout
+
+  - name: Display my_var var
+    debug:
+      var: my_var.stdout
+

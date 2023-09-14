@@ -260,7 +260,7 @@ $apps = @(
     "MicrosoftTeams"
     "Microsoft.MicrosoftOfficeHub"
     "Microsoft.Todos"
-    "Microsoft.MicrosoftSolitairCollection"
+    
 
 
 
@@ -382,7 +382,7 @@ foreach ($key in $cdm) {
 
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 #choco install foxitreader --ia '/MERGETASKS="!desktopicon,setdefaultreader,displayinbrowser /COMPONENTS=*pdfviewer,*ffse,*installprint,*ffaddin,*ffspellcheck,!connectedpdf"' -fy
-choco install 7zip, googlechrome, foxitreader, zoom -y
+choco install 7zip, googlechrome, foxitreader, zoom -fy
 
 #$secpasswd = ConvertTo-SecureString '5tJwQq5tH' -AsPlainText -Force
 #$credh = New-Object System.Management.Automation.PSCredential ('it', $secpasswd)
@@ -450,56 +450,4 @@ $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 
 #C:\temp\bootstrap_files\Chronicall_4_2_10e.exe
 #C:\temp\bootstrap_files\Forti.exe
-
-function Pin-App {    param(
-        [string]$appname,
-        [switch]$unpin
-    )
-    try{
-        if ($unpin.IsPresent){
-            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Von "Start" lösen|Unpin from Start'} | %{$_.DoIt()}
-            return "App '$appname' unpinned from Start"
-        }else{
-            ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'An "Start" anheften|Pin to Start'} | %{$_.DoIt()}
-            return "App '$appname' pinned to Start"
-        }
-    }catch{
-        Write-Error "Error Pinning/Unpinning App! (App-Name correct?)"
-    }
-}
-
-
-
-
-
-
-Pin-App "Mail" -unpin
-Pin-App "Store" -unpin
-Pin-App "Calendar" -unpin
-Pin-App "Microsoft Edge" -unpin
-Pin-App "Photos" -unpin
-Pin-App "Cortana" -unpin
-Pin-App "Weather" -unpin
-Pin-App "Phone Companion" -unpin
-Pin-App "Twitter" -unpin
-Pin-App "Skype Video" -unpin
-Pin-App "Candy Crush Soda Saga" -unpin
-Pin-App "xbox" -unpin
-Pin-App "Groove music" -unpin
-Pin-App "movies & tv" -unpin
-Pin-App "microsoft solitaire collection" -unpin
-Pin-App "money" -unpin
-Pin-App "get office" -unpin
-Pin-App "onenote" -unpin
-Pin-App "news" -unpin
-Pin-App "instagram" -unpin
-Pin-App "linkedin" -unpin
-Pin-App "netflix" -unpin
-Pin-App "prime" -unpin
-Pin-App "primevideo" -unpin
-Pin-App "prime video" -unpin
-Pin-App "spotify" -unpin
-Pin-App "whatsapp" -unpin
-Pin-App "espn" -unpin
-Pin-App "kindle" -unpin
 

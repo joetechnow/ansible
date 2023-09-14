@@ -1,0 +1,51 @@
+---
+
+- name: Pull show commands from EdgeOS
+  hosts: edgeos
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  gather_facts: False
+  ignore_errors: yes
+  connection: ssh
+  vars_files:
+  - /home/sysadmin/ansible/vault/vault.yml
+  - /home/sysadmin/ansible/vault/local.yml
+  - /home/sysadmin/ansible/vault/edgeos.yml
+
+  tasks:
+
+
+#    - name: Fetch EdgeOS config
+#      fetch:
+#        src: /config/config.boot
+#        dest: ../switch_configs/{{ inventory_hostname }}_config.boot
+#        validate_checksum: no
+   
+    - name: Create local directory
+      ansible.builtin.file:
+        path: ../z_switch_configs/{{ inventory_hostname }}
+        state: directory
+      register: local_dir
+      delegate_to: localhost
+
+    - name: Show config.boot file
+      command: show configurations commands
+      register: config_output
+
+#    - name: Display config.boot file
+#      debug:
+#        var: config_output.stdout_lines
+
+#    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/config.txt"
+
+
+
+    - name: Output show running configs
+      community.network.edgeos_facts:
+        gather_subset: config      
+      register: output
+    - debug: var=output
+
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/config.txt"
+

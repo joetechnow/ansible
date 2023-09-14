@@ -1,0 +1,26 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  pre_tasks:
+    - include_vars: ../vault/vault.yml
+  tasks:
+  - set_fact:
+      r: "{{ 1000 | random }}"
+   
+  - name: Change the hostname
+    ansible.windows.win_hostname:
+      name: "{{ inventory_hostname_short }}{{ r }}"
+    register: pc_rename
+    become: yes
+    become_method: runas
+    become_user: azurestandard.com\admin
+
+  - name: Reboot when required
+    win_reboot:
+    when: pc_rename.reboot_required
+
+ 

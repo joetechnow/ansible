@@ -1,0 +1,25 @@
+---
+- hosts: new_windows
+  tags: new_windows
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+    pre_tasks:
+    - include_vars: ../vault/vault.yml
+  tasks:
+  - set_fact:
+      r: "{{ 1000 | random }}"
+   
+  - name: Update Windows
+    ansible.windows.win_updates:
+      category_names: '*'
+     # category_names:
+     # - CriticalUpdates
+     # - SecurityUpdates
+     # - UpdateRollups
+      reject_list:
+      - Microsoft Silverlight
+    register: update_result
+
+ 

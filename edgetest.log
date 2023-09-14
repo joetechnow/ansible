@@ -1,0 +1,98 @@
+ansible-playbook 2.9.6
+  config file = /home/sysadmin/ansible/ansible.cfg
+  configured module search path = ['/home/sysadmin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.8.10 (default, May 26 2023, 14:05:08) [GCC 9.4.0]
+Using /home/sysadmin/ansible/ansible.cfg as config file
+host_list declined parsing /home/sysadmin/ansible/inventory/hosts as it did not pass its verify_file() method
+script declined parsing /home/sysadmin/ansible/inventory/hosts as it did not pass its verify_file() method
+auto declined parsing /home/sysadmin/ansible/inventory/hosts as it did not pass its verify_file() method
+toml declined parsing /home/sysadmin/ansible/inventory/hosts as it did not pass its verify_file() method
+  File "/usr/lib/python3/dist-packages/ansible/inventory/manager.py", line 280, in parse_source
+    plugin.parse(self._inventory, self._loader, source, cache=cache)
+  File "/usr/lib/python3/dist-packages/ansible/plugins/inventory/yaml.py", line 105, in parse
+    raise AnsibleParserError(e)
+  File "/usr/lib/python3/dist-packages/ansible/inventory/manager.py", line 280, in parse_source
+    plugin.parse(self._inventory, self._loader, source, cache=cache)
+  File "/usr/lib/python3/dist-packages/ansible/plugins/inventory/ini.py", line 138, in parse
+    raise AnsibleParserError(e)
+host_list declined parsing /home/sysadmin/ansible/inventory/hosts_dhcp as it did not pass its verify_file() method
+script declined parsing /home/sysadmin/ansible/inventory/hosts_dhcp as it did not pass its verify_file() method
+auto declined parsing /home/sysadmin/ansible/inventory/hosts_dhcp as it did not pass its verify_file() method
+Parsed /home/sysadmin/ansible/inventory/hosts_dhcp inventory source with ini plugin
+host_list declined parsing /home/sysadmin/ansible/inventory/image_inventory as it did not pass its verify_file() method
+script declined parsing /home/sysadmin/ansible/inventory/image_inventory as it did not pass its verify_file() method
+auto declined parsing /home/sysadmin/ansible/inventory/image_inventory as it did not pass its verify_file() method
+Parsed /home/sysadmin/ansible/inventory/image_inventory inventory source with ini plugin
+
+PLAYBOOK: edge2.yml *************************************************************************************************************************************************************************************************************************
+1 plays in playbooks/edge2.yml
+Read vars_file '/home/sysadmin/ansible/vault/vault.yml'
+Read vars_file '/home/sysadmin/ansible/vault/local.yml'
+Read vars_file '/home/sysadmin/ansible/vault/edgeos.yml'
+Read vars_file '/home/sysadmin/ansible/vault/vault.yml'
+Read vars_file '/home/sysadmin/ansible/vault/local.yml'
+Read vars_file '/home/sysadmin/ansible/vault/edgeos.yml'
+Read vars_file '/home/sysadmin/ansible/vault/vault.yml'
+Read vars_file '/home/sysadmin/ansible/vault/local.yml'
+Read vars_file '/home/sysadmin/ansible/vault/edgeos.yml'
+
+PLAY [Pull show commands from EdgeOS] *******************************************************************************************************************************************************************************************************
+META: ran handlers
+Read vars_file '/home/sysadmin/ansible/vault/vault.yml'
+Read vars_file '/home/sysadmin/ansible/vault/local.yml'
+Read vars_file '/home/sysadmin/ansible/vault/edgeos.yml'
+
+TASK [Show the configuration for eth0 and eth1] *********************************************************************************************************************************************************************************************
+task path: /home/sysadmin/ansible/playbooks/edge2.yml:19
+<172.19.19.12> ESTABLISH LOCAL CONNECTION FOR USER: sysadmin
+<172.19.19.12> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934 `" && echo ansible-tmp-1692736428.7488976-132308346142934="` echo /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934 `" ) && sleep 0'
+<MWH-AUTOMATIONCAB> Attempting python interpreter discovery
+<172.19.19.12> EXEC /bin/sh -c 'echo PLATFORM; uname; echo FOUND; command -v '"'"'/usr/bin/python'"'"'; command -v '"'"'python3.7'"'"'; command -v '"'"'python3.6'"'"'; command -v '"'"'python3.5'"'"'; command -v '"'"'python2.7'"'"'; command -v '"'"'python2.6'"'"'; command -v '"'"'/usr/libexec/platform-python'"'"'; command -v '"'"'/usr/bin/python3'"'"'; command -v '"'"'python'"'"'; echo ENDFOUND && sleep 0'
+<172.19.19.12> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+Using module file /home/sysadmin/.ansible/collections/ansible_collections/community/network/plugins/modules/edgeos_command.py
+<172.19.19.12> PUT /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/tmpf41zw688 TO /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py
+<172.19.19.12> EXEC /bin/sh -c 'chmod u+x /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/ /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py && sleep 0'
+<172.19.19.12> EXEC /bin/sh -c '/usr/bin/python /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py && sleep 0'
+<172.19.19.12> EXEC /bin/sh -c 'rm -f -r /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/ > /dev/null 2>&1 && sleep 0'
+The full traceback is:
+Traceback (most recent call last):
+  File "/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py", line 102, in <module>
+    _ansiballz_main()
+  File "/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py", line 94, in _ansiballz_main
+    invoke_module(zipped_mod, temp_path, ANSIBALLZ_PARAMS)
+  File "/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py", line 40, in invoke_module
+    runpy.run_module(mod_name='ansible_collections.community.network.plugins.modules.edgeos_command', init_globals=None, run_name='__main__', alter_sys=True)
+  File "/usr/lib/python2.7/runpy.py", line 188, in run_module
+    fname, loader, pkg_name)
+  File "/usr/lib/python2.7/runpy.py", line 82, in _run_module_code
+    mod_name, mod_fname, mod_loader, pkg_name)
+  File "/usr/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/modules/edgeos_command.py", line 172, in <module>
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/modules/edgeos_command.py", line 143, in main
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py", line 78, in run_commands
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py", line 44, in get_connection
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py", line 58, in get_capabilities
+  File "/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible/module_utils/connection.py", line 185, in __rpc__
+ansible.module_utils.connection.ConnectionError: command timeout triggered, timeout value is 30 secs.
+See the timeout setting options in the Network Debug and Troubleshooting Guide.
+failed: [MWH-AUTOMATIONCAB] (item=eth0) => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "eth0",
+    "module_stderr": "Traceback (most recent call last):\n  File \"/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py\", line 102, in <module>\n    _ansiballz_main()\n  File \"/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py\", line 94, in _ansiballz_main\n    invoke_module(zipped_mod, temp_path, ANSIBALLZ_PARAMS)\n  File \"/home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736428.7488976-132308346142934/AnsiballZ_edgeos_command.py\", line 40, in invoke_module\n    runpy.run_module(mod_name='ansible_collections.community.network.plugins.modules.edgeos_command', init_globals=None, run_name='__main__', alter_sys=True)\n  File \"/usr/lib/python2.7/runpy.py\", line 188, in run_module\n    fname, loader, pkg_name)\n  File \"/usr/lib/python2.7/runpy.py\", line 82, in _run_module_code\n    mod_name, mod_fname, mod_loader, pkg_name)\n  File \"/usr/lib/python2.7/runpy.py\", line 72, in _run_code\n    exec code in run_globals\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/modules/edgeos_command.py\", line 172, in <module>\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/modules/edgeos_command.py\", line 143, in main\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py\", line 78, in run_commands\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py\", line 44, in get_connection\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible_collections/community/network/plugins/module_utils/network/edgeos/edgeos.py\", line 58, in get_capabilities\n  File \"/tmp/ansible_community.network.edgeos_command_payload_cxLOd1/ansible_community.network.edgeos_command_payload.zip/ansible/module_utils/connection.py\", line 185, in __rpc__\nansible.module_utils.connection.ConnectionError: command timeout triggered, timeout value is 30 secs.\nSee the timeout setting options in the Network Debug and Troubleshooting Guide.\n",
+    "module_stdout": "",
+    "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error",
+    "rc": 1
+}
+<172.19.19.12> ESTABLISH LOCAL CONNECTION FOR USER: sysadmin
+<172.19.19.12> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382 `" && echo ansible-tmp-1692736459.2452183-112781659533382="` echo /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382 `" ) && sleep 0'
+Using module file /home/sysadmin/.ansible/collections/ansible_collections/community/network/plugins/modules/edgeos_command.py
+<172.19.19.12> PUT /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/tmpyjs5rykm TO /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382/AnsiballZ_edgeos_command.py
+<172.19.19.12> EXEC /bin/sh -c 'chmod u+x /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382/ /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382/AnsiballZ_edgeos_command.py && sleep 0'
+<172.19.19.12> EXEC /bin/sh -c '/usr/bin/python /home/sysadmin/.ansible/tmp/ansible-local-2686060zvi9tnx/ansible-tmp-1692736459.2452183-112781659533382/AnsiballZ_edgeos_command.py && sleep 0'

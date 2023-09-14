@@ -1,0 +1,92 @@
+---
+
+- name: Pull show commands form Cisco IOS_XE 
+  hosts: cisco
+
+  gather_facts: False
+  ignore_errors: yes
+
+  vars_files:
+  - /home/sysadmin/ansible/vault.yml
+  - /home/sysadmin/ansible/local.yml
+  - /home/sysadmin/ansible/edgeos.yml
+# The commented lines show the pre Ansible 2.5 method of passing credentials to network modules using the "provider"
+# method.  In Ansible 2.5 the network_cli connection method was introduced in order to better align network
+# and server modules so they behave in a more consistent manner.
+
+#  connection: local
+#  vars:
+#    cli:
+#        host: "{{ inventory_hostname }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        port: "{{ ansible_port }}"
+#        timeout: 30
+
+  tasks:
+
+    - name: Create local directory
+      ansible.builtin.file:
+        path: ../switch_configs/{{ inventory_hostname }}
+        state: directory
+      register: local_dir
+      delegate_to: localhost
+
+
+    - name: Output show running configs
+      ios_command:
+        commands: "{{ item }}"
+      with_items:
+      - "show running-config"
+      register: output
+    - debug: var=output
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../switch_configs/{{ inventory_hostname }}/config.txt"
+
+
+    - name: Output show version
+      ios_command:
+        commands: "{{ item }}"
+      with_items:
+      - "show version"
+      register: output
+    - debug: var=output
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../switch_configs/{{ inventory_hostname }}/version.txt"
+
+
+    - name: Output show inventory command
+      ios_command:
+        commands: "{{ item }}"
+      with_items:
+      - "show inventory"
+      register: output
+    - debug: var=output
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../switch_configs/{{ inventory_hostname }}/inventory.txt"
+
+- name: Pull show commands from EdgeOS
+  hosts: edgeos
+
+
+  gather_facts: False
+  ignore_errors: yes
+
+  vars_files:
+  - /home/sysadmin/ansible/vault.yml
+  - /home/sysadmin/ansible/local.yml
+  - /home/sysadmin/ansible/edgeos.yml
+
+  tasks:
+
+
+#    - name: Fetch EdgeOS config
+#      fetch:
+#        src: /config/config.boot
+#        dest: ../switch_configs/{{ inventory_hostname }}_config.boot
+#        validate_checksum: no
+   
+    - name: Show config.boot file
+      command: show running-config
+      register: config_output
+
+    - name: Display config.boot file
+      debug:
+        var: config_output.stdout_lines

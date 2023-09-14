@@ -1,0 +1,15 @@
+---
+vars_files:
+- /home/sysadmin/ansible/vault.yml
+- /home/sysadmin/ansible/local.yml
+
+become_method: runas
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_port: 5985
+#### Local Ansible user SETTING BELOW ####
+become_user:  ansible
+ansible_user:  ansible
+ansible_password:  "{{ local_password }}"
+ansible_become_pass:  "{{ local_password }}"
+ansible_winrm_transport: ntlm

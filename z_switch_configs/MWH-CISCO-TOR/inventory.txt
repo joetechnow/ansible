@@ -1,0 +1,74 @@
+NAME: "c38xx Stack", DESCR: "c38xx Stack"
+PID: WS-C3850-48T-L    , VID: V07  , SN: FOC2109U187
+
+NAME: "Switch 1", DESCR: "WS-C3850-48T-L"
+PID: WS-C3850-48T-L    , VID: V07  , SN: FOC2109U187
+
+NAME: "StackPort1/1", DESCR: "StackPort1/1"
+PID: STACK-T1-3M       , VID: V01  , SN: LCC1918G0H9
+
+NAME: "StackPort1/2", DESCR: "StackPort1/2"
+PID: STACK-T1-3M       , VID: V01  , SN: MOC2325A1FY
+
+NAME: "Switch 1 - Power Supply A", DESCR: "Switch 1 - Power Supply A"
+PID: C3KX-PWR-350WAC   , VID: V03  , SN: AZS173405LZ
+
+NAME: "Switch 1 - Power Supply B", DESCR: "Switch 1 - Power Supply B"
+PID: C3KX-PWR-350WAC   , VID: V03  , SN: LIT17380R2M
+
+NAME: "Switch 1 FRU Uplink Module 1", DESCR: "2x1G 2x10G Uplink Module"
+PID: C3850-NM-2-10G    , VID: V01  , SN: FOC182307JE
+
+NAME: "Te1/1/4", DESCR: "SFP-10GBase-SR"
+PID: SFP-10G-SR-S        , VID: V01  , SN: FNS25230HZ0     
+
+NAME: "Switch 2", DESCR: "WS-C3850-12X48U-L"
+PID: WS-C3850-12X48U-L , VID: V01  , SN: FCW2023F0V0
+
+NAME: "StackPort2/1", DESCR: "StackPort2/1"
+PID: STACK-T1-50CM     , VID: V01  , SN: MOC2343A1EE
+
+NAME: "StackPort2/2", DESCR: "StackPort2/2"
+PID: STACK-T1-3M       , VID: V01  , SN: LCC1918G0H9
+
+NAME: "Switch 2 - Power Supply A", DESCR: "Switch 2 - Power Supply A"
+PID: PWR-C1-1100WAC    , VID: V01  , SN: DTN2018V07A
+
+NAME: "Switch 2 - Power Supply B", DESCR: "Switch 2 - Power Supply B"
+PID: PWR-C1-1100WAC    , VID: V01  , SN: DTN2005V2TH
+
+NAME: "Switch 2 FRU Uplink Module 1", DESCR: "2x1G 2x10G Uplink Module"
+PID: C3850-NM-2-10G    , VID: V01  , SN: FOC1823079W
+
+NAME: "Te2/1/4", DESCR: "SFP-10GBase-SR"
+PID: SFP-10G-SR-S        , VID: V01  , SN: FNS25230HY6     
+
+NAME: "Switch 3", DESCR: "WS-C3850-48U-L"
+PID: WS-C3850-48U-L    , VID: V03  , SN: FOC1915X0SD
+
+NAME: "StackPort3/1", DESCR: "StackPort3/1"
+PID: STACK-T1-50CM     , VID: V01  , SN: LCC2035G7ML
+
+NAME: "StackPort3/2", DESCR: "StackPort3/2"
+PID: STACK-T1-50CM     , VID: V01  , SN: MOC2343A1EE
+
+NAME: "Switch 3 - Power Supply A", DESCR: "Switch 3 - Power Supply A"
+PID: PWR-C1-1100WAC    , VID: V01  , SN: LIT191500W1
+
+NAME: "Switch 3 - Power Supply B", DESCR: "Switch 3 - Power Supply B"
+PID: PWR-C1-715WAC     , VID: V03  , SN: LIT22442Y2L
+
+NAME: "Switch 4", DESCR: "WS-C3850-48U-L"
+PID: WS-C3850-48U-L    , VID: V03  , SN: FOC1915X0S7
+
+NAME: "StackPort4/1", DESCR: "StackPort4/1"
+PID: STACK-T1-3M       , VID: V01  , SN: MOC2325A1FY
+
+NAME: "StackPort4/2", DESCR: "StackPort4/2"
+PID: STACK-T1-50CM     , VID: V01  , SN: LCC2035G7ML
+
+NAME: "Switch 4 - Power Supply A", DESCR: "Switch 4 - Power Supply A"
+PID: PWR-C1-1100WAC    , VID: V01  , SN: LIT19101148
+
+NAME: "Switch 4 - Power Supply B", DESCR: "Switch 4 - Power Supply B"
+PID: PWR-C1-1100WAC    , VID: V02  , SN: LIT21432SX2

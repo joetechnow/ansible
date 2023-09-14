@@ -1,0 +1,62 @@
+---
+- hosts: zt_me
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+
+  tasks:
+  - name: Get hostname
+    win_command: hostname
+    register: pc_hostname
+  #  debug:
+  #    var: pc_hostname
+
+  - name: Display Hostname
+    debug:
+     var: pc_hostname
+
+  - name: Modify file name
+    set_fact:
+#     file_name:  "{{ pc_hostname.stdout_lines | regex_replace('^(.*[\\=/])') }}"
+      file_name: " {{ pc_hostname.stdout{//[a-z]/ )}  }} "
+      file_name: " {{ pc_hostname.stdout | regex_search('([0-9][A-Z]+)', '\\1') | replace('[','') | replace(']','' | replace(']','') }}"
+#      file_name: " {{ pc_hostname.stdout_lines.replace('/[^A-Z0-9 ]/g$', '')  }} "
+
+  - name: Display file_name
+    debug:
+      var: file_name
+
+  - name: Save file of PC
+    copy:
+      content: '{{ pc_hostname.stdout }}'
+      dest: ../z_windows_pcs/"{{ pc_hostname.stdout_lines }}" 
+#| regex_replace('[','' | regex_replace']','' }}"
+    delegate_to: localhost
+
+  - name: Get product id and product key
+    community.windows.win_product_facts:
+
+  - name: Display Windows edition
+    debug:
+      var: ansible_os_license_edition
+
+  - name: Display Windows license status
+    debug:
+      var: ansible_os_license_status
+
+  - name: Display Windows License
+    debug:
+      var: ansible_os_product_key
+
+#  gather_facts: True
+#  ignore_errors: yes
+
+#- name: Create Local Dir for PC key and details
+#  ansible.builtin.file:
+#    path: ~/ansible-staging/ansible-roles/z_windows_pcs/{{ pc_hostname.stdout.lines }}
+#    path: /home/sysadmin/ansible-staging/ansible-roles/z_windows_pcs/test
+#    state: absent
+#    mode: '0777'
+#  register: local_dir
+#  delegate_to: localhost

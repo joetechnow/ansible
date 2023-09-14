@@ -1,0 +1,24 @@
+---
+- hosts: zt_me
+  ignore_errors: yes
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+    - /home/sysadmin/ansible/edgeos.yml
+  tasks:
+#  - name: win_ping Ansible Playbook
+#    win_ping:
+#    ping:
+#  - name: win_ping Ansible Playbook 2nd credentials
+#    win_ping:  
+#      ansible_user:Azure 
+#      ansible_password= {{ win_password }}
+   
+  
+  - name: Search-only, return list of found updates (if any), log to C:\ansible_wu.txt
+    ansible.windows.win_updates:
+#      category_names: *
+      state: searched
+      log_path: c:\ansible_wu.txt
+

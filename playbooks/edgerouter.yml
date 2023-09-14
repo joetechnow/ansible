@@ -1,0 +1,28 @@
+---
+
+
+- name: Example playbook for EdgeRouter
+  hosts: edgeos
+  gather_facts: no
+  vars_files:
+  - /home/sysadmin/ansible/vault/vault.yml
+  - /home/sysadmin/ansible/vault/local.yml
+  - /home/sysadmin/ansible/vault/edgeos.yml
+
+
+  vars:
+    ansible_network_os: edgeos
+    ansible_connection: network_cli
+    ansible_become_method: enable
+    ansible_password: "{{ edgeos }}"
+    ansible_become_password: "{{ edgeos }}"
+    ansible_connection: network_cli
+    wp_variable: "{{ edgeos }}"
+    ansible_become_user: ubnt
+    ansible_user: ubnt
+
+
+  tasks:
+    - name: Run command on EdgeRouter
+      command:
+        cmd: show interfaces

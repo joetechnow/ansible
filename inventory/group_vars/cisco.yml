@@ -1,0 +1,14 @@
+---
+vars_files:
+- /home/sysadmin/ansible/vault.yml
+- /home/sysadmin/ansible/local.yml
+
+ansible_password_file: /home/sysadmin/ansible/vault.yml
+ansible_network_os: ios
+become_method: enable
+ansible_user: sysadmin
+ansible_password: "{{ win_password }}"
+ansible_become_password: "{{ win_password }}"
+ansible_connection: network_cli
+wp_variable: "{{ win_password }}"
+ansible_become_user: sysadmin

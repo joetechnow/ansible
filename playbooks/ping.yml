@@ -1,0 +1,112 @@
+---
+- hosts: zt_me
+#- hosts: image
+#- hosts: edgeos
+#- hosts: zt_windows:production:zt_windows_fix
+#- hosts: production
+#- hosts: local
+  ignore_errors: yes
+  gather_facts: no
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+    - /home/sysadmin/ansible/vault/edgeos.yml
+  tasks:
+  - name: win_ping Ansible Playbook
+    win_ping:
+  #- name: Collect only the config and default facts
+   # community.network.edgeos_facts:
+    #  gather_subset: config
+
+#- hosts: zt_windows
+#- hosts: zt
+#  ignore_errors: yes
+#  gather_facts: no
+#  vars_files:
+#    - /home/sysadmin/ansible/vault/vault.yml
+#    - /home/sysadmin/ansible/vault/local.yml
+#    - /home/sysadmin/ansible/vault/edgeos.yml
+#  tasks:
+#  - name: win_ping Ansible Playbook
+#    win_ping:
+
+
+#- hosts: zt_windows
+#  ignore_errors: yes
+#  gather_facts: no
+#  vars_files:
+#    - /home/sysadmin/ansible/vault/vault.yml
+#    - /home/sysadmin/ansible/vault/local.yml
+#    - /home/sysadmin/ansible/vault/edgeos.yml
+#  tasks:
+#  - name: win_ping Ansible Playbook
+#    win_ping:
+
+
+
+
+
+
+#    ping:
+#  - name: win_ping Ansible Playbook 2nd credentials
+#    win_ping:  
+#      ansible_user:Azure 
+#      ansible_password= {{ win_password }}
+   
+
+
+
+#  - name: Check if host is available via WinRM
+#    win_ping:
+#    register: result_winrm
+#    until: result_winrm.unreachable| default ('false') == 'false' or result_winrm.ping | default ('') =='pong'
+#    retries: 2
+#    delay: 3
+#    ignore_errors: yes
+
+#  - name: Add AzureZTChoco repository for use over ZeroTier
+#    win_chocolatey_source:
+#      name: AzureZTChoco
+#      state: present
+#      priority: 1
+#      source: \\10.211.0.5\azurestandard.com\shared$\chocolatey\
+
+#  - name: Change priority Choco repository
+#    win_chocolatey_source:
+#      name: chocolatey
+#      state: present
+#      priority: 2
+#      source: https://community.chocolatey.org/api/v2/
+
+#  - name: Add AzureChoco repository
+#    win_chocolatey_source:
+#      name: AzureChoco
+#      state: present
+#      priority: 1
+#      source: \\data.azurestandard.com\shared$\chocolatey\
+
+#  - name: Ensure user ansible is present
+#    ansible.windows.win_user:
+#      name: ansible
+#      password: 
+#      state: present
+#      groups:
+#        - Administrators
+#      account_disabled: false
+
+#  - name: Add a local and domain user to a local group
+#    ansible.windows.win_group_membership:
+#      name: Administrators
+#      members:
+#        - ansible
+#        - azurestandard.com\ansible
+#      state: present
+
+#  - name: Add AzureZTChoco repository
+#    win_chocolatey_source:
+#      name: AzureZTChoco
+#      state: present
+#      priority: 1
+#      source: \\10.211.0.5\shared$\chocolatey\
+#      source_username: azurestandard.com\ansible
+#      source_password: 

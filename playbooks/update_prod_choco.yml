@@ -1,0 +1,35 @@
+---
+#### local hosts section  ####
+
+- hosts: production
+  gather_facts: no
+  ignore_errors: yes
+  vars_files:
+    - /home/sysadmin/ansible/vault/vault.yml
+    - /home/sysadmin/ansible/vault/local.yml
+  tasks:
+
+#  - name: Add AzureChoco repository
+#    win_chocolatey_source:
+#      name: AzureChoco
+#      state: present
+#      priority: 1
+#      source: \\data.azurestandard.com\shared$\chocolatey\
+#      source_username: azurestandard.com\ansible
+#      source_password: "{{ local_password }}"
+
+  - name: Update Select Choco Packages
+    win_chocolatey:
+      name: '{{ item }}'
+      state: latest
+    loop:
+    - googlechrome
+    - 7zip
+    - foxitreader
+    - notepadplusplus
+    - zoom
+
+#  - name: Copy bootstap_files directory to temp folder
+#    ansible.windows.win_copy:
+#      src: /home/sysadmin/ansible/files/bootstrap_files/
+#      dest: C:\Temp\bootstrap_files\

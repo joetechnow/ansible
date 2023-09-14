@@ -1,0 +1,15 @@
+---
+- hosts: zt_me
+  gather_facts: True
+  vars_files:
+    - /home/sysadmin/ansible/vault.yml
+    - /home/sysadmin/ansible/local.yml
+
+  tasks:
+  - name: Create directory to store Windows key
+    file:
+      path: ./z-windows_pcs/{{ ansible_hostname }}
+      state: directory
+
+
+

@@ -1,8 +1,0 @@
----
-- hosts: windows
-  gather_facts: no
-  vars_files:
-    - /home/sysadmin/ansible/vault.yml
-  tasks:
-  - name: win_ping Ansible Playbook
-    win_ping:

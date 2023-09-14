@@ -1,0 +1,33 @@
+[image]
+new-pc10 ansible_host=172.20.10.10
+new-pc11 ansible_host=172.20.10.11
+new-pc12 ansible_host=172.20.10.12
+new-pc13 ansible_host=172.20.10.13
+#new-pc14 ansible_host=172.20.10.14
+#new-pc15 ansible_host=172.20.10.15
+
+[image:vars]
+become_method=runas
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+ansible_port=5985
+#### Domain Ansible user SETTING BELOW ####
+#become_user= azurestandard.com\ansible
+#ansible_user= azurestandard.com\ansible
+#ansible_password= {{ local_password }}
+#ansible_become_pass= {{ local_password }}
+#ansible_winrm_transport=ntlm
+#### LOCAL ansible user AUTH SETTINGS BELOW ####
+#ansible_user=ansible
+#ansible_become_pass= {{ local_password }}
+#ansible_password= {{ local_password }}
+#become_user=ansible
+#ansible_winrm_transport=ntlm
+#### Azure user local auth settings, will also work with administrator ####
+ansible_user=Azure
+ansible_become_pass= {{ win_password }}
+ansible_password= {{ win_password }}
+become_user=Azure
+ansible_winrm_transport=ntlm
+
+

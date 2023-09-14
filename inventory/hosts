@@ -1,0 +1,82 @@
+#[switch]
+
+
+#[switch:children]
+#cisco
+#edgeos
+
+[cisco]
+MWH-CISCO-TOR ansible_host=192.168.99.10
+#MWH-CISCO-SW1 ansible_host=192.168.99.11
+#MWH-CISCO-SW2 ansible_host=192.168.99.12
+#MWH-CISCO-SW3 ansible_host=192.168.99.13
+
+
+[edgeos]
+#MWH-AUTOMATIONCAB ansible_host=192.168.99.16
+MWH-AUTOMATIONCAB ansible_host=172.19.19.12
+#MWH-AUTOMATIONCAB2 ansible_host=192.168.99.15
+#MWH-EDGEROUTERCORE ansible_host=172.19.0.254
+
+
+[windows]
+
+[windows:children]
+zt
+update
+image
+win_server
+local
+
+[zt]
+
+[zt:children]
+zt_windows_fix
+zt_me
+zt_windows
+
+[update]
+
+[update:children]
+zt_windows
+zt_windows_fix
+production
+zt_me
+
+[local]
+
+[local:children]
+#production
+
+[image]
+#172.20.10.[10:20]
+new-pc10 ansible_host=172.20.10.10
+new-pc11 ansible_host=172.20.10.11
+new-pc12 ansible_host=172.20.10.12
+new-pc13 ansible_host=172.20.10.13
+#new-pc14 ansible_host=172.20.10.14
+#new-pc15 ansible_host=172.20.10.15
+#new-pc16 ansible_host=172.20.10.16
+#new-pc8 ansible_host=172.20.10.17
+#new-pc9 ansible_host=172.20.10.18
+#new-pc10 ansible_host=172.20.10.19
+
+[win_server]
+vsvr20-dc ansible_host=172.19.2.1
+172.19.10.49
+172.19.2.12
+172.19.2.14
+172.17.0.19
+172.17.0.248
+172.20.10.100
+
+[zt_me]
+joes_laptop ansible_host=172.20.5.221
+#nick_dt ansible_host=172.19.2.49
+
+[zt_windows_fix]
+10.211.0.[10:19]
+
+[zt_windows]
+10.211.0.[20:80]
+

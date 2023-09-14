@@ -1,0 +1,174 @@
+---
+###############################################################################
+# This playbook utilizes the ios_command ansible module to execute a set of
+# show commands against the cisco ios devices defined in the [cisco_xe]
+# group within the hosts file.   The command iterates over a list of show commands
+# and saves the result of each command into the output variable.
+#
+# The output variable is then displayed as part of the playbook run
+#
+# The contents of the output variable are then saved using two different methods.
+# device-output.txt has the raw output format which is a JSON data structure
+# device.cfg saves the results of the first command sent which in this case
+# is the show run command (hence the .cfg file type)
+#
+# The final play uses the templates module to save the show command output in the
+# more traditional text based output.
+#
+# The resulting output files are saved in the ./z_switch_configs directory
+#
+# This version only includes show commands that will likely work.
+#
+# EXECUTION:
+# ansible-playbook -i hosts test.yml
+###############################################################################
+
+- name: Pull show commands form Cisco IOS_XE Always On Sandbox device
+  hosts: switch
+
+  gather_facts: False
+  ignore_errors: yes
+
+  vars_files:
+  - /home/sysadmin/ansible/vault/vault.yml
+  - /home/sysadmin/ansible/vault/local.yml
+
+
+# The commented lines show the pre Ansible 2.5 method of passing credentials to network modules using the "provider"
+# method.  In Ansible 2.5 the network_cli connection method was introduced in order to better align network
+# and server modules so they behave in a more consistent manner.
+
+#  connection: local
+#  vars:
+#    cli:
+#        host: "{{ inventory_hostname }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        port: "{{ ansible_port }}"
+#        timeout: 30
+
+  tasks:
+    - name: Create local directory
+      ansible.builtin.file:
+        path: ../z_switch_configs/{{ inventory_hostname }}
+        state: directory
+      register: local_dir
+      delegate_to: localhost
+
+
+
+    - name: Output show running configs
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show run"
+#      - "show inventory"
+#      - "show ip int br"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the raw output which is an unformatted data structure
+#    - local_action: copy content="{{ output.results }}" dest="./logs/{{ inventory_hostname }}-raw-output.txt"
+    # Sae the configuration only in the commonly formatted file
+#    - local_action: mkdir ./z_switch_configs/{{ inventory_hostname }}/
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/config.txt"
+
+
+    - name: Output show version command
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show version"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the verion only in the commonly formatted file
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/version.txt"
+
+
+
+
+
+    - name: Output show inventory command
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show inventory"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the configuration only in the commonly formatted file
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/inventory.txt"
+
+
+
+    - name: Output show ip int brf command
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show ip int br"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the configuration only in the commonly formatted file
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/int-brf.txt"
+
+
+
+    - name: Output show vlans command
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show vlan brief"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the configuration only in the commonly formatted file
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/vlans.txt"
+
+
+    - name: Output show route command
+      ios_command:
+        commands: "{{ item }}"
+#        provider: "{{ cli }}"
+
+      with_items:
+      - "show ip route"
+
+      register: output
+
+    - debug: var=output
+
+    # Save the configuration only in the commonly formatted file
+    - local_action: copy content="{{ output.results.0.stdout.0 }}" dest="../z_switch_configs/{{ inventory_hostname }}/route.txt"
+
+
+
+
+
+    # Run the output through a Jinja2 template to get all the show commands in their common format
+ #   - name: Generate Device Show Command File(s)
+ #     template: src=./templates/show-commands-template.j2
+ #                 dest=./logs/{{ inventory_hostname }}-readable-show-output.txt
+ #     with_items:
+ #       - "{{ output }}"

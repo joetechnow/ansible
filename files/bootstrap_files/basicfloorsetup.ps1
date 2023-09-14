@@ -46,9 +46,6 @@ netsh wlan connect ssid="AzureProduction" name="AzureProduction"
 netsh wlan set profileparameter name="AzureProduction" autoswitch=Yes
 
 
-$p = ConvertTo-SecureString '1/2.3,4m1m2,3.4/' -AsPlainText -Force
-
-$cred = New-Object System.Management.Automation.PSCredential ('azurestandard.com\admin', $p)
 
 
 
@@ -291,7 +288,7 @@ Get-AppxPackage "Microsoft.XboxSpeechToTextOverlay" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.MixedReality.Portal" | Remove-AppxPackage
 Get-AppBackgroundTask "Microsoft.XboxIdentityProvider" | Remove-AppPackage
 
-Write-Output "Uninstalling default apps"
+#Write-Output "Uninstalling default apps"
 $apps = @(
     # default Windows 10 apps
     "Microsoft.3DBuilder"
@@ -590,8 +587,8 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Advertising
 
 
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-choco install foxitreader --ia '/MERGETASKS="!desktopicon,setdefaultreader,displayinbrowser /COMPONENTS=*pdfviewer,*ffse,*installprint,*ffaddin,*ffspellcheck,!connectedpdf"' -fy
-cinst 7zip, googlechrome -fy
+#choco install foxitreader --ia '/MERGETASKS="!desktopicon,setdefaultreader,displayinbrowser /COMPONENTS=*pdfviewer,*ffse,*installprint,*ffaddin,*ffspellcheck,!connectedpdf"' -fy
+choco install 7zip, googlechrome -y
 
 #$secpasswd = ConvertTo-SecureString '5tJwQq5tH' -AsPlainText -Force
 #$credh = New-Object System.Management.Automation.PSCredential ('it', $secpasswd)
@@ -625,8 +622,14 @@ foreach ($d in $dellapp){Get-AppxPackage $d -AllUsers | Remove-AppxPackage}
 $hpapp = Get-AppxPackage | where name -Like *hp*
 foreach ($h in $hpapp){Get-AppxPackage $h -AllUsers | Remove-AppxPackage}
 
-net user administrator az79709
-net user administrator /active:yes
+#net user administrator az79709
+#net user administrator /active:yes
+
+net user ansible fGtew456GcxsHc /add
+net user ansible /active:yes
+net localgroup administrators ansible /add
+net localgroup administrators azurestandard.com\mwh /delete
+net localgroup administrators azurestandard.com\ansible /add
 
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.pdf\' -Value Applications\foxitreader.exe -Name foxitreader.exe
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.htm\' -Value ChromeHTML -Name ChromeHTML
@@ -656,7 +659,7 @@ else
 
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows nt\CurrentVersion\Winlogon' -Name cachedlogonscount -Value 0
 Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows nt\CurrentVersion\Winlogon' -Name cachedlogonscount
-Write-Host -NoNewLine 'Press any key to continue...'
+#Write-Host -NoNewLine 'Press any key to continue...'
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 "
 
@@ -664,6 +667,6 @@ $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 
-Add-Computer -DomainCredential $cred -DomainName Azurestandard.com
+#Add-Computer -DomainCredential $cred -DomainName Azurestandard.com
 
-Restart-Computer -Force
+#Restart-Computer -Force
